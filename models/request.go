@@ -1,8 +1,6 @@
 package models
 
 import (
-	"bytes"
-	"encoding/gob"
 	"encoding/json"
 )
 
@@ -10,7 +8,6 @@ type Request struct {
 	Body    []byte
 	Method  string
 	Uri     string
-	Api     string
 	Headers []Header
 }
 
@@ -37,14 +34,4 @@ func (req *Request) SetMethod(method string) {
 
 func (req *Request) SetUri(uri string) {
 	req.Uri = uri
-}
-
-func GetBytes(key interface{}) ([]byte, error) {
-	var buf bytes.Buffer
-	enc := gob.NewEncoder(&buf)
-	err := enc.Encode(key)
-	if err != nil {
-		return nil, err
-	}
-	return buf.Bytes(), nil
 }

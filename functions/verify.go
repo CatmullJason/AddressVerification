@@ -7,12 +7,13 @@ import (
 )
 
 /********************************************************
-* AddressVerify: Receives an address and verifies that
-* it is correct by posting to EasyPost's address
-* verification API
+* AddressVerify : Creates a request with accompanying
+* headers, body, URI, method, etc. and then calls SendRequest
+* to receive a response from a specified API
 *********************************************************/
-func AddressVerify(address models.RequestAddress) (models.Verification, error) {
+func AddressVerify(address models.Address) (models.Verification, error) {
 
+	//Create request
 	request := models.Request{}
 	request.AddHeader("Content-Type", "application/json")
 	request.AddHeader("Authorization", "Basic VnJvODROdkNuMFJIclNwZnBRdm0wUTo=")
@@ -20,11 +21,11 @@ func AddressVerify(address models.RequestAddress) (models.Verification, error) {
 	request.SetUri("https://api.easypost.com/v2/addresses")
 	request.SetMethod("POST")
 
-	//Make request
+	//Send request
 	responseBody, err := SendRequest(request)
 
 	//Initialize response address
-	responseAddress := models.ResponseAddress{}
+	responseAddress := models.Address{}
 
 	err = json.Unmarshal(responseBody, &responseAddress)
 	if err != nil {
