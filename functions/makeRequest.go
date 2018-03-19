@@ -1,29 +1,26 @@
 package functions
 
 import (
+	"AddressVerification/models"
 	"bytes"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 )
 
-func NewRequest(body []byte, uri, apiKey, method string) ([]byte, error) {
+func SendRequest(request models.Request) ([]byte, error) {
+	fmt.Println(string(request.Body))
+	client := &http.Client{}
+	req, err := http.NewRequest(request.Method, request.Uri, bytes.NewBuffer(request.Body))
 
-	if method == "POST" || method == "GET" {
-	} else {
-		return nil, errors.New("Invalid http method")
+	for _, header := range request.Headers {
+		req.Header.Add(header.Key, header.Value)
 	}
 
-	client := &http.Client{}
-	req, err := http.NewRequest(method, uri, bytes.NewBuffer(body))
-	req.Header.Add("Authorization", "Basic "+apiKey)
-	req.Header.Add("Content-Type", "application/json")
 	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
 	}
-
 	defer resp.Body.Close()
 
 	return ioutil.ReadAll(resp.Body)
