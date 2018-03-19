@@ -10,20 +10,22 @@ import (
 
 func TestAddressVerification(t *testing.T) {
 
-	testAddress := models.Address{
-		//ID:          "adr_4ff39618e9f5429298ef69b2d436884b",
-		//Object:      "Address",
+	SetAPIKey("Basic VnJvODROdkNuMFJIclNwZnBRdm0wUTo=")
+
+	testAddress := models.RequestAddress{
+		//ID:          "",
+		//Object:  "Address",
 		Mode:    "test",
-		Street1: "2020 S. Luxury Ln.",
-		//Street2:     "Apt. I204",
-		City:        "Idaho Falls",
-		State:       "ID",
-		Zip:         "83642",
-		Country:     "US",
-		Residential: true,
+		Street1: "5200 E Skidmore Dr.",
+		//Street2:     "",
+		City: "Idaho Falls",
+		//State:       "",
+		Zip:     "83406",
+		Country: "US",
+		//Residential: false,
 		//CarrierFacility: "",
-		Name:    "",
-		Company: "EasyPost",
+		//Name:    "",
+		//Company: "EasyPost",
 		//Phone:           "",
 		//Email:           "",
 		//FederalTaxID:    "",
@@ -31,10 +33,11 @@ func TestAddressVerification(t *testing.T) {
 		VerifyStrict: []string{"delivery"},
 	}
 
-	verifyResponse, err := AddressVerify(testAddress)
-
-	fmt.Println(err)
+	found, address, err := CreateAddress(testAddress)
+	fmt.Println(found)
+	fmt.Printf("This is the address object: %v", address)
+	fmt.Println(address.Verifications.Delivery.Errors)
 
 	assert.Nil(t, err)
-	assert.True(t, verifyResponse.Success)
+	assert.True(t, found)
 }

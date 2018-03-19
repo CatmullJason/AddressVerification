@@ -1,6 +1,6 @@
 package models
 
-type Address struct {
+type ResponseAddress struct {
 	ID              string        `json:"id"`
 	Object          string        `json:"object"`
 	CreatedAt       string        `json:"created_at"`
@@ -23,4 +23,16 @@ type Address struct {
 	Verifications   Verifications `json:"verifications"`
 	Verify          []string      `json:"verify"`
 	VerifyStrict    []string      `json:"verify_strict"`
+}
+
+type RequestAddress struct {
+	Mode         string   `json:"mode"`
+	Street1      string   `json:"street1"`
+	Street2      string   `json:"street2"`
+	City         string   `json:"city"`
+	State        string   `json:"state"`
+	Zip          string   `json:"zip"`
+	Country      string   `json:"country"`
+	Residential  bool     `json:"residential"`
+	VerifyStrict []string `json:"verify_strict"`
 }
